@@ -4,33 +4,14 @@ export default class TapeTestFramework implements TestFramework {
   constructor(private settings: TestFrameworkSettings) { }
 
   beforeEach(codeFragment: string): string {
-    return `beforeEach(function() {
-      ${codeFragment}
-    });`;
+    throw new Error('beforeEach is not really supported in tape. Please use redtape if you want this feature.');
   }
 
   afterEach(codeFragment: string): string {
-    return `afterEach(function() {
-      ${codeFragment}
-    });`;
+    throw new Error('afterEach is not really supported in tape. Please use redtape if you want this feature.');
   }
 
-  filter(testIds: number[]) {
-    return `
-      var mocha = window.mocha || require('mocha');
-      if (window.____mochaAddTest) {
-        mocha.Suite.prototype.addTest = window.____mochaAddTest;
-      } else {
-        window.____mochaAddTest = mocha.Suite.prototype.addTest
-      }
-      var current = 0;
-      var realAddTest = mocha.Suite.prototype.addTest;
-      mocha.Suite.prototype.addTest = function () {
-        if (${JSON.stringify(testIds)}.indexOf(current) > -1) {
-          realAddTest.apply(this, arguments);
-        }
-        current++;
-      };
-    `;
+  filter(testIds: number[]): string {
+    throw new Error('Filtering tests not supported yet. Please log an issue if you want this feature');
   }
 }
