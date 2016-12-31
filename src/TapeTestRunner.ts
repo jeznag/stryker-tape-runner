@@ -4,7 +4,7 @@ import { EventEmitter } from 'events';
 import { TestRunner, TestResult, RunResult, TestStatus, RunStatus, RunnerOptions, CoverageCollection } from 'stryker-api/test_runner';
 import { InputFile } from 'stryker-api/core';
 
-import tape from 'tape';
+const tape = require('tape');
 
 const log = log4js.getLogger('TapeTestRunner');
 export default class TapeTestRunner extends EventEmitter implements TestRunner {

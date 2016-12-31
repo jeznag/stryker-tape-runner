@@ -7,7 +7,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 var log4js = require("log4js");
 var events_1 = require("events");
 var test_runner_1 = require("stryker-api/test_runner");
-var tape_1 = require("tape");
+var tape = require('tape');
 var log = log4js.getLogger('TapeTestRunner');
 var TapeTestRunner = (function (_super) {
     __extends(TapeTestRunner, _super);
@@ -24,7 +24,7 @@ var TapeTestRunner = (function (_super) {
         return new Promise(function (resolve, fail) {
             try {
                 _this.purgeFiles();
-                tape_1.default.createStream({ objectMode: true })
+                tape.createStream({ objectMode: true })
                     .on('data', function (row) {
                     if (row.type === 'assert' && !row.ok) {
                         fail();
