@@ -4,11 +4,13 @@ export default class TapeTestFramework implements TestFramework {
   constructor(private settings: TestFrameworkSettings) { }
 
   beforeEach(codeFragment: string): string {
-    throw new Error('beforeEach is not really supported in tape. Please use redtape if you want this feature.');
+    // beforeEach not really supported in tape. Need to use redtape for this feature
+    return `${codeFragment}`;
   }
 
   afterEach(codeFragment: string): string {
-    throw new Error('afterEach is not really supported in tape. Please use redtape if you want this feature.');
+    // afterEach not really supported in tape. Need to use redtape for this feature
+    return `${codeFragment}`;
   }
 
   filter(testIds: number[]): string {
