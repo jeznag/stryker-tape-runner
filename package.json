@@ -28,11 +28,11 @@
   },
   "homepage": "https://github.com/stryker-mutator/stryker-mocha-runner#readme",
   "dependencies": {
-    "log4js": "^1.0.1"
+    "log4js": "^1.0.1",
+    "tape": "^4.6.3"
   },
   "peerDependencies": {
-    "stryker-api": "^0.4.0",
-    "mocha": ">= 2.3.3 < 4"
+    "stryker-api": "^0.4.0"
   },
   "devDependencies": {
     "@types/chai": "^3.4.32",
@@ -65,6 +65,7 @@
     "typescript": "~2.0.2"
   },
   "contributors": [
+    "Jeremy Nagel <jeremymnagel@gmail.com>",
     "nicojs <jansennico@gmail.com>",
     "Simon de Lang <simondelang@gmail.com>"
   ]

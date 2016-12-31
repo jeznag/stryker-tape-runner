@@ -4,13 +4,10 @@ import { EventEmitter } from 'events';
 import { TestRunner, TestResult, RunResult, TestStatus, RunStatus, RunnerOptions, CoverageCollection } from 'stryker-api/test_runner';
 import { InputFile } from 'stryker-api/core';
 
+import tape from 'tape';
 
-// import * as Mocha from 'mocha';
-const Mocha = require('mocha');
-import StrykerMochaReporter from './StrykerMochaReporter';
-
-const log = log4js.getLogger('MochaTestRunner');
-export default class MochaTestRunner extends EventEmitter implements TestRunner {
+const log = log4js.getLogger('TapeTestRunner');
+export default class TapeTestRunner extends EventEmitter implements TestRunner {
   private files: InputFile[];
 
   constructor(runnerOptions: RunnerOptions) {
@@ -26,12 +23,20 @@ export default class MochaTestRunner extends EventEmitter implements TestRunner 
     return new Promise<RunResult>((resolve, fail) => {
       try {
         this.purgeFiles();
-        let mocha = new Mocha({ reporter: StrykerMochaReporter, bail: true });
-        this.files.filter(file => file.included).forEach(f => mocha.addFile(f.path));
+
+        // this allows us to intercept test results being run below
+        tape.createStream({ objectMode: true })
+          .on('data', (row: any) => {
+            if (row.type === 'assert' && !row.ok) {
+              fail();
+            }
+          })
+          .on('end', resolve);
+
         try {
-          let runner: any = mocha.run((failures: number) => {
-            let result: RunResult = runner.runResult;
-            resolve(result);
+          this.files.filter(file => file.included).forEach(testFile => {
+            // requiring the tape file is enough to execute the tests
+            require(testFile.path);
           });
         } catch (error) {
           resolve({

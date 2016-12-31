@@ -1,6 +1,6 @@
 import { TestFramework, TestFrameworkSettings } from 'stryker-api/test_framework';
 
-export default class MochaTestFramework implements TestFramework {
+export default class TapeTestFramework implements TestFramework {
   constructor(private settings: TestFrameworkSettings) { }
 
   beforeEach(codeFragment: string): string {

@@ -1,8 +1,8 @@
 import { TestRunnerFactory } from 'stryker-api/test_runner';
 import { TestFrameworkFactory } from 'stryker-api/test_framework';
 
-import MochaTestRunner from './MochaTestRunner';
-import MochaTestFramework from './MochaTestFramework';
+import TapeTestRunner from './TapeTestRunner';
+import TapeTestFramework from './TapeTestFramework';
 
-TestRunnerFactory.instance().register('mocha', MochaTestRunner);
-TestFrameworkFactory.instance().register('mocha', MochaTestFramework);
+TestRunnerFactory.instance().register('tape', TapeTestRunner);
+TestFrameworkFactory.instance().register('tape', TapeTestFramework);
