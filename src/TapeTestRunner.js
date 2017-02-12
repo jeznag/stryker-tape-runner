@@ -22,17 +22,25 @@ var TapeTestRunner = (function (_super) {
     TapeTestRunner.prototype.run = function () {
         var _this = this;
         return new Promise(function (resolve, fail) {
+            var testNames = [];
             try {
                 _this.purgeFiles();
                 tape.createStream({ objectMode: true })
                     .on('data', function (row) {
                     if (row.type === 'assert' && !row.ok) {
-                        fail();
+                        fail("test failed " + row);
                     }
                 })
-                    .on('end', resolve);
+                    .on('end', function () {
+                    resolve({
+                        status: test_runner_1.RunStatus.Complete,
+                        tests: testNames,
+                        errorMessages: []
+                    });
+                });
                 try {
                     _this.files.filter(function (file) { return file.included; }).forEach(function (testFile) {
+                        testNames.push(testFile.path);
                         require(testFile.path);
                     });
                 }
@@ -46,7 +54,11 @@ var TapeTestRunner = (function (_super) {
             }
             catch (error) {
                 log.error(error);
-                fail(error);
+                resolve({
+                    status: test_runner_1.RunStatus.Error,
+                    tests: [],
+                    errorMessages: [error]
+                });
             }
         });
     };
