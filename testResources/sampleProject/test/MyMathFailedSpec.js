@@ -1,18 +1,24 @@
-var MyMath = require('../src/MyMath');
+const test = require('tape-catch');
+const MyMath = require('../src/MyMath');
 
-describe('MyMath should fail', function () {
-  var myMath;
+let myMath;
 
-  beforeEach(function () {
+function beforeEach() {
+  try {
     myMath = new MyMath();
-  });
+  } catch (err) {
+    console.log(err);
+  }
+}
 
-  it('should do 1+1=3', function () {
-    expect(myMath.add(1, 1)).to.equal(3);
-  });
+test('2 + 2 should equal 5', function (t) {
+  beforeEach();
+  var num1 = 2;
+  var num2 = 2;
+  var expected = 5;
 
-  it('should do 3+1=5', function () {
-    expect(myMath.addOne(3)).to.equal(5);
-  });
+  var actual = myMath.add(num1, num2);
 
+  t.equal(actual, expected);
+  t.end();
 });

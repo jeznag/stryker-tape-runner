@@ -22,25 +22,38 @@ var TapeTestRunner = (function (_super) {
     TapeTestRunner.prototype.run = function () {
         var _this = this;
         return new Promise(function (resolve, fail) {
-            var testNames = [];
+            var testResults = [];
             try {
                 _this.purgeFiles();
+                var timeOfLastTest_1 = Date.now();
                 tape.createStream({ objectMode: true })
                     .on('data', function (row) {
+                    if (row.type === 'test') {
+                        testResults.push({
+                            status: test_runner_1.TestStatus.Success,
+                            name: row.name,
+                            timeSpentMs: 0
+                        });
+                    }
+                    if (row.type === 'end') {
+                        var timeSinceLastTest = Date.now() - timeOfLastTest_1;
+                        var relevantResult = testResults[row.test];
+                        relevantResult.timeSpentMs = timeSinceLastTest;
+                        timeOfLastTest_1 = Date.now();
+                    }
                     if (row.type === 'assert' && !row.ok) {
-                        fail("test failed " + row);
+                        testResults[row.id].status = test_runner_1.TestStatus.Failed;
                     }
                 })
                     .on('end', function () {
                     resolve({
                         status: test_runner_1.RunStatus.Complete,
-                        tests: testNames,
+                        tests: testResults,
                         errorMessages: []
                     });
                 });
                 try {
                     _this.files.filter(function (file) { return file.included; }).forEach(function (testFile) {
-                        testNames.push(testFile.path);
                         require(testFile.path);
                     });
                 }

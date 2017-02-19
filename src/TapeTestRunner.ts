@@ -21,28 +21,42 @@ export default class TapeTestRunner extends EventEmitter implements TestRunner {
 
   run(): Promise<RunResult> {
     return new Promise<RunResult>((resolve, fail) => {
-      let testNames: any[] = [];
+      let testResults: TestResult[] = [];
+
       try {
         this.purgeFiles();
 
+        let timeOfLastTest = Date.now();
         // this allows us to intercept test results being run below
         tape.createStream({ objectMode: true })
           .on('data', (row: any) => {
+            if (row.type === 'test') {
+              testResults.push({
+                status: TestStatus.Success,
+                name: row.name,
+                timeSpentMs: 0
+              });
+            }
+            if (row.type === 'end') {
+              const timeSinceLastTest = Date.now() - timeOfLastTest;
+              const relevantResult = testResults[row.test];
+              relevantResult.timeSpentMs = timeSinceLastTest;
+              timeOfLastTest = Date.now();
+            }
             if (row.type === 'assert' && !row.ok) {
-              fail(`test failed ${row}`);
+              testResults[row.id].status = TestStatus.Failed;
             }
           })
           .on('end', function () {
             resolve({
               status: RunStatus.Complete,
-              tests: testNames,
+              tests: testResults,
               errorMessages: []
             });
           });
 
         try {
           this.files.filter(file => file.included).forEach(testFile => {
-            testNames.push(testFile.path);
             // requiring the tape file is enough to execute the tests
             // NB - tape-catch is required otherwise the whole thing blows up
             // here if the test throws an exception

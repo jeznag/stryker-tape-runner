@@ -44,40 +44,6 @@ module.exports = function (grunt) {
         tasks: ['mochaTest:unit']
       }
     },
-    mochaTest: {
-      unit: {
-        options: {
-          reporter: 'spec'
-        },
-        // Register helpers before, it includes a log4js mock which has to be loaded as early as possible
-        src: ['test/helpers/**/*.js', 'test/unit/**/*.js']
-      },
-      integration: {
-        options: {
-          reporter: 'spec',
-          timeout: 5000
-        },
-        // Register helpers before, it includes a log4js mock which has to be loaded as early as possible
-        src: ['test/helpers/**/*.js', 'test/integration/**/*.js']
-      }
-    },
-    mocha_istanbul: {
-      coverage: {
-        // Register helpers before, it includes a log4js mock which has to be loaded as early as possible
-        src: ['test/helpers/**/*.js', 'test/unit/**/*.js', 'test/integration/**/*.js'],
-      }
-    },
-    istanbul_check_coverage: {
-      default: {
-        options: {
-          coverageFolder: 'coverage*',
-          check: {
-            lines: 80,
-            statements: 80
-          }
-        }
-      }
-    },
     /* End code coverage */
 
     ts: {
@@ -90,7 +56,7 @@ module.exports = function (grunt) {
         }
       },
     },
-    
+
     tslint: {
       src: {
         src: ['*.ts', 'src/**/*.ts']
