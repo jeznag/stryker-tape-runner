@@ -26,7 +26,7 @@ var TapeTestRunner = (function (_super) {
             try {
                 _this.purgeFiles();
                 var timeOfLastTest_1 = Date.now();
-                tape.createStream({ objectMode: true })
+                tape.createStream({ objectMode: true, port: _this.port })
                     .on('data', function (row) {
                     if (row.type === 'test') {
                         testResults.push({

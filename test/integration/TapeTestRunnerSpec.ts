@@ -1,7 +1,8 @@
 import TapeTestRunner from '../../src/TapeTestRunner';
 import { TestResult, RunnerOptions, RunResult, TestStatus, RunStatus } from 'stryker-api/test_runner';
+import * as chai from 'chai';
 import * as path from 'path';
-const test = require('tape-catch');
+const expect = chai.expect;
 
 const countTests = (runResult: RunResult, predicate: (result: TestResult) => boolean) =>
   runResult.tests.filter(predicate).length;
@@ -13,74 +14,78 @@ const countFailed = (runResult: RunResult) =>
 const file = (filePath: string, mutated: boolean = true, included: boolean = true) =>
   ({ path: path.resolve(filePath), mutated, included });
 
-let sut: any;
-
-function beforeEach() {
+function generateTestRunner() {
+  let sut: any;
+  let port: any = (Math.random() * 1000).toFixed(0);
   const testRunnerOptions = {
     files: [
       file('./testResources/sampleProject/src/MyMath.js'),
       file('./testResources/sampleProject/test/MyMathSpec.js')],
     strykerOptions: {},
-    port: 1234
+    port
   };
   sut = new TapeTestRunner(testRunnerOptions);
+  return sut;
 }
 
-test('TapeTestRunner should report completed tests', (t: any) => {
-  beforeEach();
-  sut.run().then((runResult: RunResult) => {
-    console.log(runResult);
-    t.equal(countSucceeded(runResult), 5);
-    t.equal(countFailed(runResult), 0);
+describe('TapeTestRunner', () => {
 
-    runResult.tests.forEach((testResult) => {
-      t.ok(testResult.timeSpentMs > -1 && testResult.timeSpentMs < 1000, 'test should take less than 1 second' + testResult.timeSpentMs);
+  it('should report completed tests', (done: any) => {
+    const sut = generateTestRunner();
+    sut.run().then((runResult: RunResult) => {
+      expect(countSucceeded(runResult)).to.equal(5);
+      expect(countFailed(runResult)).to.equal(0);
+
+      runResult.tests.forEach((testResult) => {
+        expect(testResult.timeSpentMs > -1 && testResult.timeSpentMs < 1000).to.be.ok;
+      });
+      expect(runResult.status).to.equal(RunStatus.Complete);
+      expect(runResult.coverage).to.not.be.ok;
+
+      done();
     });
-    t.equal(runResult.status, RunStatus.Complete);
-    t.notOk(runResult.coverage, 'coverage should be falsy');
-
-    t.end();
-  });
-})
-
-test('should be able to run 2 times in a row', (t: any) => {
-  beforeEach();
-  sut.run().then(() => sut.run()).then((runResult: RunResult) => {
-    t.equal(countSucceeded(runResult), 5);
-    t.end();
-  });
-});
-
-test('Given that there is an error in the input file, should ignore that file and report completed tests without errors', (t: any) => {
-  let options = {
-    files: [
-      file('testResources/sampleProject/src/MyMath.js'),
-      file('testResources/sampleProject/src/Error.js', false, false),
-      file('testResources/sampleProject/test/MyMathSpec.js')
-    ],
-    strykerOptions: {},
-    port: 1234
-  };
-  sut = new TapeTestRunner(options);
-
-  sut.run().then((runResult: RunResult) => {
-    t.equal(runResult.status, RunStatus.Complete, 'Test result did not match');
-    t.end();
-  });
-});
-
-test('Given that there are multiple failed tests, should report completed tests without errors', (t: any) => {
-  sut = new TapeTestRunner({
-    files: [
-      file('testResources/sampleProject/src/MyMath.js'),
-      file('testResources/sampleProject/test/MyMathFailedSpec.js')
-    ],
-    strykerOptions: {},
-    port: 1234
   });
 
-  sut.run().then((runResult: RunResult) => {
-    t.equal(countFailed(runResult), 1);
-    t.end();
+  it('should be able to run 2 times in a row', (done: any) => {
+    const sut = generateTestRunner();
+    sut.run().then(() => sut.run()).then((runResult: RunResult) => {
+      expect(countSucceeded(runResult)).to.equal(5);
+      done();
+    });
+  });
+
+  it('Given that there is an error in the input file, should ignore that file and report completed tests without errors', (done: any) => {
+    let options = {
+      files: [
+        file('testResources/sampleProject/src/MyMath.js'),
+        file('testResources/sampleProject/src/Error.js', false, false),
+        file('testResources/sampleProject/test/MyMathSpec.js')
+      ],
+      strykerOptions: {},
+      port: 1234
+    };
+    const sut = new TapeTestRunner(options);
+
+    sut.run().then((runResult: RunResult) => {
+      expect(runResult.status).to.equal(RunStatus.Complete);
+      done();
+    });
+  });
+
+  it('Given that there are multiple failed tests, should report completed tests without errors', (done: any) => {
+    const sut = new TapeTestRunner({
+      files: [
+        file('testResources/sampleProject/src/MyMath.js'),
+        file('testResources/sampleProject/test/MyMathFailedSpec.js')
+      ],
+      strykerOptions: {},
+      port: 1234
+    });
+
+    sut.run();
+    sut.run().then((runResult: RunResult) => {
+      expect(countFailed(runResult)).to.equal(1);
+      done();
+    });
   });
 });

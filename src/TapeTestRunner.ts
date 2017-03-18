@@ -9,6 +9,7 @@ const tape = require('tape');
 const log = log4js.getLogger('TapeTestRunner');
 export default class TapeTestRunner extends EventEmitter implements TestRunner {
   private files: InputFile[];
+  private port: number;
 
   constructor(runnerOptions: RunnerOptions) {
     super();
@@ -28,7 +29,7 @@ export default class TapeTestRunner extends EventEmitter implements TestRunner {
 
         let timeOfLastTest = Date.now();
         // this allows us to intercept test results being run below
-        tape.createStream({ objectMode: true })
+        tape.createStream({ objectMode: true, port: this.port })
           .on('data', (row: any) => {
             if (row.type === 'test') {
               testResults.push({

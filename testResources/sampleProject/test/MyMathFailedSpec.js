@@ -18,7 +18,10 @@ test('2 + 2 should equal 5', function (t) {
   var expected = 5;
 
   var actual = myMath.add(num1, num2);
-
-  t.equal(actual, expected);
+  try {
+    t.equal(actual, expected);
+  } catch (e) {
+    console.log('$#%$#%#');
+  }
   t.end();
 });
