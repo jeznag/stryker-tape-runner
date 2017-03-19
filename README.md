@@ -19,8 +19,8 @@ module.exports = function (config) {
   config.set({
     files: [
       'test/tape/**/*.js',
-      { pattern: 'src/**/*.js!analyseSentiment.js', included: false, mutated: false },
       { pattern: 'src/analyseSentiment.js', included: false, mutated: true },
+      { pattern: 'src/**/*.js!analyseSentiment.js', included: false, mutated: false }
     ],
     testFramework: 'tape',
     maxConcurrentTestRunners: 3,
