@@ -1,10 +1,10 @@
 {
   "name": "stryker-tape-runner",
-  "version": "0.2.0",
+  "version": "0.0.1",
   "description": "The Stryker TestRunner for Tape",
   "main": "src/index.js",
   "scripts": {
-    "test": "mocha ./test/integration/TapeTestRunnerSpec.js && mocha ./test/unit/TapeTestFramework.js",
+    "test": "mocha ./test/**/*Spec.js",
     "preversion": "npm test"
   },
   "repository": {
@@ -28,13 +28,17 @@
   },
   "homepage": "https://github.com/stryker-mutator/stryker-tape-runner#readme",
   "dependencies": {
-    "log4js": "^1.0.1"
+    "log4js": "^1.0.1",
+    "stryker-api": "^0.4.1",
+    "tape": "^4.6.3"
   },
   "peerDependencies": {
     "stryker-api": "^0.4.0"
   },
   "devDependencies": {
+    "@types/chai": "^3.4.35",
     "@types/log4js": "0.0.31",
+    "@types/mocha": "^2.2.40",
     "@types/node": "^6.0.38",
     "@types/sinon": "^1.16.31",
     "chai": "^3.5.0",
@@ -46,16 +50,15 @@
     "grunt-conventional-changelog": "^6.1.0",
     "grunt-npm": "0.0.2",
     "grunt-ts": "^6.0.0-beta.3",
-    "grunt-tslint": "^3.2.1",
+    "grunt-tslint": "^4.0.0",
     "istanbul": "^0.4.0",
     "load-grunt-tasks": "^3.5.2",
     "mocha": "^3.2.0",
     "sinon": "^1.17.2",
-    "stryker-api": "^0.4.1",
     "tape-catch": "^1.0.6",
     "tape-spawn": "^1.4.2",
-    "tslint": "^3.15.1",
-    "typescript": "~2.0.2"
+    "tslint": "^4.4.2",
+    "typescript": "~2.2.0"
   },
   "contributors": [
     "Jeremy Nagel <jeremymnagel@gmail.com>",

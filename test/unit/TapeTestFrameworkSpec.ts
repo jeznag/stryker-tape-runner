@@ -1,5 +1,4 @@
-import * as chai from 'chai';
-const expect = chai.expect;
+import { expect } from 'chai';
 import TapeTestFramework from '../../src/TapeTestFramework';
 
 describe('TapeTestRunner', () => {
@@ -13,7 +12,7 @@ describe('TapeTestRunner', () => {
 
   it('filtering tests not supported', () => {
     expect(function () {
-      TapeTestFramework.prototype.filter([1234])
+      TapeTestFramework.prototype.filter([1234]);
     }).to.throw(/Filtering tests not supported yet. Please log an issue if you want this feature/);
   });
 });

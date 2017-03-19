@@ -1,8 +1,7 @@
 import TapeTestRunner from '../../src/TapeTestRunner';
 import { TestResult, RunnerOptions, RunResult, TestStatus, RunStatus } from 'stryker-api/test_runner';
-import * as chai from 'chai';
+import { expect } from 'chai';
 import * as path from 'path';
-const expect = chai.expect;
 
 const countTests = (runResult: RunResult, predicate: (result: TestResult) => boolean) =>
   runResult.tests.filter(predicate).length;
