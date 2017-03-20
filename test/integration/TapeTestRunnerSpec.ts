@@ -18,8 +18,8 @@ function generateTestRunner() {
   let port: any = (Math.random() * 1000).toFixed(0);
   const testRunnerOptions = {
     files: [
-      file('./testResources/sampleProject/src/MyMath.js'),
-      file('./testResources/sampleProject/test/MyMathSpec.js')],
+      file('testResources/sampleProject/src/MyMath.js'),
+      file('testResources/sampleProject/test/MyMathSpec.js')],
     strykerOptions: {},
     port
   };
@@ -32,25 +32,22 @@ describe('TapeTestRunner', () => {
   it('should report completed tests', (done: any) => {
     const sut = generateTestRunner();
     sut.run().then((runResult: RunResult) => {
+      expect(runResult.status).to.equal(RunStatus.Complete);
       expect(countSucceeded(runResult)).to.equal(5);
       expect(countFailed(runResult)).to.equal(0);
 
       runResult.tests.forEach((testResult) => {
         expect(testResult.timeSpentMs > -1 && testResult.timeSpentMs < 1000).to.be.ok;
       });
-      expect(runResult.status).to.equal(RunStatus.Complete);
       expect(runResult.coverage).to.not.be.ok;
-
-      done();
-    });
+    }).then(done, done);
   });
 
   it('should be able to run 2 times in a row', (done: any) => {
     const sut = generateTestRunner();
     sut.run().then(() => sut.run()).then((runResult: RunResult) => {
       expect(countSucceeded(runResult)).to.equal(5);
-      done();
-    });
+    }).then(done, done);
   });
 
   it('Given that there is an error in the input file, should ignore that file and report completed tests without errors', (done: any) => {
@@ -67,8 +64,7 @@ describe('TapeTestRunner', () => {
 
     sut.run().then((runResult: RunResult) => {
       expect(runResult.status).to.equal(RunStatus.Complete);
-      done();
-    });
+    }).then(done, done);
   });
 
   it('Given that there are multiple failed tests, should report completed tests without errors', (done: any) => {
@@ -84,7 +80,6 @@ describe('TapeTestRunner', () => {
     sut.run();
     sut.run().then((runResult: RunResult) => {
       expect(countFailed(runResult)).to.equal(1);
-      done();
-    });
+    }).then(done, done);
   });
 });
