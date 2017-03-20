@@ -2,7 +2,10 @@
 [![NPM](https://img.shields.io/npm/dm/stryker-tape-runner.svg)](https://www.npmjs.com/package/stryker-tape-runner)
 [![Node version](https://img.shields.io/node/v/stryker-tape-runner.svg)](https://img.shields.io/node/v/stryker-tape-runner.svg)
 [![Gitter](https://badges.gitter.im/stryker-mutator/stryker.svg)](https://gitter.im/stryker-mutator/stryker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-# stryker-tape-runner
+
+![Stryker](https://github.com/stryker-mutator/stryker/raw/master/stryker-80x80.png)
+
+# Stryker Tape Runner
 The Stryker TestRunner for Tape
 
 ## Known issues:
