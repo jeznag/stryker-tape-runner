@@ -4,8 +4,9 @@
   "description": "The Stryker TestRunner for Tape",
   "main": "src/index.js",
   "scripts": {
+    "build": "tsc",
     "start": "tsc -w",
-    "test": "tsc & mocha test/**/*.js",
+    "test": "mocha test/**/*.js",
     "preversion": "npm test"
   },
   "repository": {
