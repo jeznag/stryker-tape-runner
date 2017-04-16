@@ -1,7 +1,7 @@
-const test = require('tape-catch');
-const MyMath = require('../src/MyMath');
+var test = require('tape-catch');
+var MyMath = require('../src/MyMath');
 
-let myMath;
+var myMath;
 
 function beforeEach() {
   try {
