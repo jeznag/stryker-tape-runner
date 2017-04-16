@@ -71,7 +71,7 @@ describe('TapeTestRunner', () => {
     sut.run().then((runResult: RunResult) => {
       console.log('entering callback');
       console.log(JSON.stringify(runResult));
-      //expect(runResult.status).to.equal(RunStatus.Complete);
+      expect(runResult.status).to.equal(RunStatus.Complete);
       console.log(done);
       console.log(JSON.stringify(done));
       done();
@@ -80,7 +80,7 @@ describe('TapeTestRunner', () => {
       console.log('done called');
     }, (rejectionReason) => {
       done(rejectionReason);
-    });
+    }).then(done, done);
   });
 
   it.skip('Given that there are multiple failed tests, should report completed tests without errors', (done: any) => {
