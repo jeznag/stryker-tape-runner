@@ -41,15 +41,13 @@ describe('TapeTestRunner', () => {
         expect(testResult.timeSpentMs > -1 && testResult.timeSpentMs < 1000).to.be.ok;
       });
       expect(runResult.coverage).to.not.be.ok;
-      done();
-    }).then(done, done);;
+    }).then(done, done);
   });
 
   it('should be able to run 2 times in a row', (done: any) => {
     const sut = generateTestRunner();
     sut.run().then(() => sut.run()).then((runResult: RunResult) => {
       expect(countSucceeded(runResult)).to.equal(5);
-      done();
     }).then(done, done);
   });
 
@@ -67,7 +65,6 @@ describe('TapeTestRunner', () => {
 
     sut.run().then((runResult: RunResult) => {
       expect(runResult.status).to.equal(RunStatus.Complete);
-      done();
     }).then(done, done);
   });
 
@@ -84,7 +81,6 @@ describe('TapeTestRunner', () => {
     sut.run();
     sut.run().then((runResult: RunResult) => {
       expect(countFailed(runResult)).to.equal(1);
-      done();
     }).then(done, done);;
   });
 });
