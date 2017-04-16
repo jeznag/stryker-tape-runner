@@ -56,25 +56,20 @@ export default class TapeTestRunner extends EventEmitter implements TestRunner {
             });
           });
 
-        try {
-          this.files.filter(file => file.included).forEach(testFile => {
-            // requiring the tape file is enough to execute the tests
-            // NB - tape-catch is required otherwise the whole thing blows up
-            // here if the test throws an exception
-            console.log(testFile.path);
-            try {
-              require(testFile.path);
-            } catch (error) {
-              console.log(error);
-            }
-          });
-        } catch (error) {
-          resolve({
-            status: RunStatus.Error,
-            tests: [],
-            errorMessages: [error]
-          });
-        }
+        this.files.filter(file => file.included).forEach(testFile => {
+          // requiring the tape file is enough to execute the tests
+          // NB - tape-catch is required otherwise the whole thing blows up
+          // here if the test throws an exception
+          try {
+            require(testFile.path);
+          } catch (error) {
+            resolve({
+              status: RunStatus.Error,
+              tests: [],
+              errorMessages: [error]
+            });
+          }
+        });
       } catch (error) {
         log.error(error);
         resolve({
