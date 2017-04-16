@@ -66,6 +66,7 @@ describe('TapeTestRunner', () => {
       port: 1234
     };
     const sut = new TapeTestRunner(options);
+    console.log(JSON.stringify(options));
 
     sut.run().then((runResult: RunResult) => {
       expect(1).to.equal(2);
