@@ -32,13 +32,14 @@ describe('TapeTestRunner', () => {
   it('should report completed tests', (done: any) => {
     const sut = generateTestRunner();
     sut.run().then((runResult: RunResult) => {
+      console.log(JSON.stringify(runResult));
+      expect(runResult.status).to.equal(RunStatus.Complete);
       expect(countSucceeded(runResult)).to.equal(5);
       expect(countFailed(runResult)).to.equal(0);
 
       runResult.tests.forEach((testResult) => {
         expect(testResult.timeSpentMs > -1 && testResult.timeSpentMs < 1000).to.be.ok;
       });
-      expect(runResult.status).to.equal(RunStatus.Complete);
       expect(runResult.coverage).to.not.be.ok;
       done();
     }).then(done, done);;
@@ -63,7 +64,6 @@ describe('TapeTestRunner', () => {
       port: 1234
     };
     const sut = new TapeTestRunner(options);
-    console.log(JSON.stringify(options));
 
     sut.run().then((runResult: RunResult) => {
       expect(runResult.status).to.equal(RunStatus.Complete);
