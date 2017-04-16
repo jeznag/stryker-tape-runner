@@ -29,7 +29,7 @@ function generateTestRunner() {
 
 describe('TapeTestRunner', () => {
 
-  it.skip('should report completed tests', (done: any) => {
+  it('should report completed tests', (done: any) => {
     const sut = generateTestRunner();
     sut.run().then((runResult: RunResult) => {
       expect(countSucceeded(runResult)).to.equal(5);
@@ -40,19 +40,16 @@ describe('TapeTestRunner', () => {
       });
       expect(runResult.status).to.equal(RunStatus.Complete);
       expect(runResult.coverage).to.not.be.ok;
-      
-      expect(1).to.equal(2);
       done();
-    });
+    }).then(done, done);;
   });
 
-  it.skip('should be able to run 2 times in a row', (done: any) => {
+  it('should be able to run 2 times in a row', (done: any) => {
     const sut = generateTestRunner();
     sut.run().then(() => sut.run()).then((runResult: RunResult) => {
-      expect(1).to.equal(2);
       expect(countSucceeded(runResult)).to.equal(5);
       done();
-    });
+    }).then(done, done);
   });
 
   it('Given that there is an error in the input file, should ignore that file and report completed tests without errors', (done: any) => {
@@ -69,21 +66,12 @@ describe('TapeTestRunner', () => {
     console.log(JSON.stringify(options));
 
     sut.run().then((runResult: RunResult) => {
-      console.log('entering callback');
-      console.log(JSON.stringify(runResult));
       expect(runResult.status).to.equal(RunStatus.Complete);
-      console.log(done);
-      console.log(JSON.stringify(done));
       done();
-      console.log(done);
-      console.log(JSON.stringify(done));
-      console.log('done called');
-    }, (rejectionReason) => {
-      done(rejectionReason);
     }).then(done, done);
   });
 
-  it.skip('Given that there are multiple failed tests, should report completed tests without errors', (done: any) => {
+  it('Given that there are multiple failed tests, should report completed tests without errors', (done: any) => {
     const sut = new TapeTestRunner({
       files: [
         file('testResources/sampleProject/src/MyMath.js'),
@@ -95,9 +83,8 @@ describe('TapeTestRunner', () => {
 
     sut.run();
     sut.run().then((runResult: RunResult) => {
-      expect(1).to.equal(2);
       expect(countFailed(runResult)).to.equal(1);
       done();
-    });
+    }).then(done, done);;
   });
 });
