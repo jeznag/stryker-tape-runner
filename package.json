@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "tsc -w",
-    "test": "mocha test/**/*.js",
+    "pretest": "npm run build",
+    "test": "nyc --check-coverage --lines 80 --functions 80 --branches 75 mocha \"test/**/*.js\"",
     "preversion": "npm test"
   },
   "repository": {
@@ -56,6 +57,7 @@
     "istanbul": "^0.4.0",
     "load-grunt-tasks": "^3.5.2",
     "mocha": "^3.2.0",
+    "nyc": "^10.2.0",
     "sinon": "^1.17.2",
     "tape-catch": "^1.0.6",
     "tape-spawn": "^1.4.2",

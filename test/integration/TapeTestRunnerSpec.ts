@@ -32,7 +32,6 @@ describe('TapeTestRunner', () => {
   it('should report completed tests', (done: any) => {
     const sut = generateTestRunner();
     sut.run().then((runResult: RunResult) => {
-      console.log(JSON.stringify(runResult));
       expect(runResult.status).to.equal(RunStatus.Complete);
       expect(countSucceeded(runResult)).to.equal(5);
       expect(countFailed(runResult)).to.equal(0);
@@ -81,6 +80,6 @@ describe('TapeTestRunner', () => {
     sut.run();
     sut.run().then((runResult: RunResult) => {
       expect(countFailed(runResult)).to.equal(1);
-    }).then(done, done);;
+    }).then(done, done);
   });
 });
