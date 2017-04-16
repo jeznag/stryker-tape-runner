@@ -61,7 +61,12 @@ export default class TapeTestRunner extends EventEmitter implements TestRunner {
             // requiring the tape file is enough to execute the tests
             // NB - tape-catch is required otherwise the whole thing blows up
             // here if the test throws an exception
-            require(testFile.path);
+            console.log(testFile.path);
+            try {
+              require(testFile.path);
+            } catch (error) {
+              console.log(error);
+            }
           });
         } catch (error) {
           resolve({
