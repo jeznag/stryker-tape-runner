@@ -73,7 +73,7 @@ export default class TapeTestRunner extends EventEmitter implements TestRunner {
             // NB - tape-catch is required otherwise the whole thing blows up
             // here if the test throws an exception
             
-              console.log(`Requiring`);
+              console.log(`Requiring ${JSON.stringify(testFile)}`);
             require(testFile.path);
           });
         } catch (error) {

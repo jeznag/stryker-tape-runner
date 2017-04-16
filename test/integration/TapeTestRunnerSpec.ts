@@ -69,6 +69,7 @@ describe('TapeTestRunner', () => {
     console.log(JSON.stringify(options));
 
     sut.run().then((runResult: RunResult) => {
+      console.log('entering callback');
       expect(1).to.equal(2);
       expect(runResult.status).to.equal(RunStatus.Complete);
       done();
