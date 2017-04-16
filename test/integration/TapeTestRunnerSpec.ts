@@ -18,8 +18,8 @@ function generateTestRunner() {
   let port: any = (Math.random() * 1000).toFixed(0);
   const testRunnerOptions = {
     files: [
-      file('./testResources/sampleProject/src/MyMath.js'),
-      file('./testResources/sampleProject/test/MyMathSpec.js')],
+      file('testResources/sampleProject/src/MyMath.js'),
+      file('testResources/sampleProject/test/MyMathSpec.js')],
     strykerOptions: {},
     port
   };
