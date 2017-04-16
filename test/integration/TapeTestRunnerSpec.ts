@@ -72,7 +72,12 @@ describe('TapeTestRunner', () => {
       console.log('entering callback');
       expect(1).to.equal(2);
       expect(runResult.status).to.equal(RunStatus.Complete);
+      console.log(done);
+      console.log(JSON.stringify(done));
       done();
+      console.log(done);
+      console.log(JSON.stringify(done));
+      console.log('done called');
     }, (rejectionReason) => {
       done(rejectionReason);
     });
