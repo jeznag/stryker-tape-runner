@@ -77,9 +77,9 @@ describe('TapeTestRunner', () => {
       port: 1234
     });
 
-    sut.run();
     sut.run().then((runResult: RunResult) => {
       expect(countFailed(runResult)).to.equal(1);
-    }).then(done, done);
+    }).then(done, done)
+    .catch(done);
   });
 });
