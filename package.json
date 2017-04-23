@@ -32,11 +32,11 @@
   "homepage": "https://github.com/stryker-mutator/stryker-tape-runner#readme",
   "dependencies": {
     "log4js": "^1.0.1",
-    "stryker-api": "^0.4.1",
+    "stryker-api": "^0.5.0",
     "tape": "^4.6.3"
   },
   "peerDependencies": {
-    "stryker-api": "^0.4.0"
+    "stryker-api": "^0.5.0"
   },
   "devDependencies": {
     "@types/chai": "^3.4.35",
